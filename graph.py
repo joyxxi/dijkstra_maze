@@ -37,11 +37,11 @@ class Graph:
     #     self.vert_list[key] = vertex
     #     return vertex
 
-    # def get_vertex(self, vertex):
-    #     if vertex in self.vert_list:
-    #         return self.vert_list[vertex]
-    #     else:
-    #         return None
+    def get_vertex(self, vertex):
+        if vertex in self.vert_list:
+            return self.vert_list[vertex]
+        else:
+            return None
 
     # def __contains__(self, vertex):
     #     return vertex in self.vert_list
