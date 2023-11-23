@@ -1,15 +1,13 @@
-""" DRAFT: need to revise!!!
-    class Graph
+""" class Graph
         Attributes:
-            rows: total rows and columns in the graph
+            rows: number of rows in the graph
             vert_list: list of all vertices in the graph
             vert_count: number of vertices in the graph
 
         Methods:
             draw_graph: create vertices to fill in the graph, MAZE ALGO USE THIS
                 Parameters:
-                    rows: number of rows and columns in total in the graph
-                    width: width of the grid
+                    width: width of the row
 """
 from vertex import Vertex
 
@@ -20,8 +18,9 @@ class Graph:
         self.vert_list = []
         self.vert_count = 0
 
-    def draw_graph(self, rows, width):
+    def draw_graph(self, width):
         graph = self.vert_list
+        rows = self.rows
         sub_width = width // rows
         for row in range(rows):
             graph.append([])
@@ -30,31 +29,35 @@ class Graph:
                 self.vert_count += 1
         return graph
     
-    
-    # def add_vertex(self, key):
-    #     self.vert_count = self.numVertices + 1
-    #     vertex = Vertex(key)
-    #     self.vert_list[key] = vertex
-    #     return vertex
+    def get_vert_list(self):
+        return [vertex for vertex in self.vert_list]
 
-    def get_vertex(self, vertex):
-        if vertex in self.vert_list:
-            return self.vert_list[vertex]
-        else:
-            return None
 
-    # def __contains__(self, vertex):
-    #     return vertex in self.vert_list
+# DO NOT NEED THESE, SAVE HERE IN CASE!
+# def get_vertex(self, vertex):
+#     if vertex in self.vert_list:
+#         return self.vert_list[vertex]
+#     else:
+#         return None
 
-    # def add_edge(self, f, t, weight=0):
-    #     if f not in self.vert_list:
-    #         nv = self.add_vertex(f)
-    #     if t not in self.vert_list:
-    #         nv = self.add_vertex(t)
-    #     self.vert_list[f].add_neighbor(self.vert_list[t], weight)
+# def add_vertex(self, key):
+#     self.vert_count = self.numVertices + 1
+#     vertex = Vertex(key)
+#     self.vert_list[key] = vertex
+#     return vertex
 
-    # def get_vertices(self):
-    #     return self.vert_list.keys()
+# def __contains__(self, vertex):
+#     return vertex in self.vert_list
 
-    # def __iter__(self):
-    #     return iter(self.vert_list.values())
+# def add_edge(self, f, t, weight=0):
+#     if f not in self.vert_list:
+#         nv = self.add_vertex(f)
+#     if t not in self.vert_list:
+#         nv = self.add_vertex(t)
+#     self.vert_list[f].add_neighbor(self.vert_list[t], weight)
+
+# def get_vertices(self):
+#     return self.vert_list.keys()
+
+# def __iter__(self):
+#     return iter(self.vert_list.values())
