@@ -11,7 +11,7 @@ This project is divided into four main parts, each contained in separate Python 
 
 ### 1. Vertices and Grid Build Definition
 
-- **File Name**: `graph.py`, `vertex.py`
+- **File Name**: `vertex.py`
 - **Description**: 
   - Contains the definitions and vertices for the construction of the grid.
   - This file lays the foundational structure upon which the maze will be generated.
