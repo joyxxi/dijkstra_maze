@@ -9,7 +9,8 @@
                 Parameters:
                     width: width of the row
 """
-from vertex import Vertex
+
+from vertex import *
 
 
 class Graph:

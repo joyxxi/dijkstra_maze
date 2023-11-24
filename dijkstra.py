@@ -2,14 +2,16 @@
 
 from vertex import *
 from queue import PriorityQueue
+from visualization import *
 
 open_pq = PriorityQueue()
 open_pq_set = set()
-visited = set()
+# visited = set()
 dist_to = {}
 edge_to = {}
 
-def dijkstra(start, end, graph):
+def dijkstra(win, start, end, graph):
+    # TODO: Parameters wait to be revised
     """Run main parts of the algorithm.
     Pseudocode:
     Add (start, 0) to the priority queue(PQ)
@@ -26,29 +28,17 @@ def dijkstra(start, end, graph):
         change color of current vertex
         visit(all edges from p)
     """
-    # Add all vertices to the PQ with priority infinity, vertex START with priority 0.
-    # all_vertices = graph.get_vert_list()
-    # for row in range(len(all_vertices)):
-    #     for v in range(len(row)):
-    #         if v.is_wall():
-    #             pass
-    #         if v.is_start():
-    #             open_pq.put((0, start))
-    #             dist_to[v] = 0
-    #         open_pq.put((float('inf'), v))
-    #         dist_to[v] = float('inf')
 
-    # Add the START vertex to the PQ
+    # Add the START vertex to the OPEN_PQ
     open_pq.put((0, start))
     open_pq_set.add(start)
 
-    # Add all vertices with infinity value
+    # Add all vertices to DIST_TO with infinity value
     all_vertices = graph.get_vert_list()
     dist_to = {v: float('inf') for row in all_vertices for v in row}
     dist_to[start] = 0
     
     while open_pq.not_empty():
-        # TODO: Pygame related things, don't know yet
         for event in pygame.event.get():
               if event.type == pygame.QUIT:
                   pygame.quit()
@@ -56,18 +46,17 @@ def dijkstra(start, end, graph):
         # removes and returns the item with the lowest priority (smallest number).
         current = open_pq.get()[1]
         open_pq_set.remove(current)
-        visited.add(current)
+        # visited.add(current)
 
         if current == end:
             construct_path()
-            # TODO: PYGAME: end the game?
             return True
         
         # Visit neighbors
         for neighbor in current.get_neighbors():
             relax(current, neighbor)
     
-        # TODO PYGAME: draw()
+        draw_graph(win, graph)
 
         # Change color
         if current != start:
@@ -91,7 +80,7 @@ def relax(current, neighbor):
         change priority of PQ for (q, dis_to[q])
         change color of q
     """
-    if neighbor in visited:
+    if neighbor.is_visited() or neighbor.is_start():
         return
     
     if dist_to[current] + 1 < dist_to[neighbor]:
@@ -119,12 +108,12 @@ def construct_path(start, end):
     while current != start:
         current.set_path()
         current = edge_to[current]
-        # draw()
+        # TODO: PYGAME: draw()
 
 
 def reset():
     open_pq = PriorityQueue()
     open_pq_set = set()
-    visited = set()
+    # visited = set()
     dist_to = {}
     edge_to = {}

@@ -18,7 +18,6 @@
                 Parameters: current window
 """
 import pygame
-from graph import Graph
 
 
 # Colors as status of vertices
@@ -47,6 +46,7 @@ class Vertex:
     def is_open(self):
         return self.color == GREEN
     
+    # Work for Dijkstra part
     def is_visited(self):
         return self.color == RED
     
@@ -68,6 +68,7 @@ class Vertex:
     def set_open(self):
         self.color = GREEN
     
+    # Work for Dijkstra part
     def set_visted(self):
         self.color = RED
 
@@ -103,24 +104,24 @@ class Vertex:
     def get_neighbors(self):
         return [nbr for nbr in self.neighbors]
     
-    # call this when maze has been generated to draw wall if there's any
-    def draw_wall(self, window):
-        # pygame draw line from one position to another
-        width = self.width
-        x = self.row * width
-        y = self.column * width
-        # draw top wall
-        if self.walls['top']:
-            pygame.draw.line(window, BLACK, (x, y), (x + width, y))
-        # draw right wall
-        if self.walls['right']:
-            pygame.draw.line(window, BLACK, (x + width, y), (x + width, y + width))
-        # draw bottom wall
-        if self.walls['bottom']:
-            pygame.draw.line(window, BLACK, (x + width, y + width), (x, y + width))
-        # draw left wall
-        if self.walls['left']:
-            pygame.draw.line(window, BLACK, (x, y + width), (x, y))
+    # # call this when maze has been generated to draw wall if there's any
+    # def draw_wall(self, window):
+    #     # pygame draw line from one position to another
+    #     width = self.width
+    #     x = self.row * width
+    #     y = self.column * width
+    #     # draw top wall
+    #     if self.walls['top']:
+    #         pygame.draw.line(window, BLACK, (x, y), (x + width, y))
+    #     # draw right wall
+    #     if self.walls['right']:
+    #         pygame.draw.line(window, BLACK, (x + width, y), (x + width, y + width))
+    #     # draw bottom wall
+    #     if self.walls['bottom']:
+    #         pygame.draw.line(window, BLACK, (x + width, y + width), (x, y + width))
+    #     # draw left wall
+    #     if self.walls['left']:
+    #         pygame.draw.line(window, BLACK, (x, y + width), (x, y))
 
 
 # DO NOT NEED THESE, SAVE HERE IN CASE!
