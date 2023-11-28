@@ -47,8 +47,8 @@ class Vertex:
         self.visited = False # for maze generation, flag True after being visited, to avoid using Set
         self.neighbors = []
         
-    def is_wall(self):
-        return self.color == BLACK
+    def is_wall(self, position):
+        return self.walls[position]
     
     def is_open(self):
         return self.color == GREEN
@@ -85,6 +85,9 @@ class Vertex:
 
     def reset_vertex(self):
         self.color = WHITE
+
+    def reset_wall(self, position):
+        self.walls[position] = False
 
     # call this after the maze has been generated to update neighbors list
     def add_neighbors(self, vert_list):
