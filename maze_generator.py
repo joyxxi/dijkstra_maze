@@ -2,6 +2,7 @@ import random
 from collections import deque
 import collections
 from enum import Enum
+from vertex import Vertex
 
 
 # Note: Adjust console font to get the maze to look right
@@ -132,14 +133,29 @@ class Maze:
             self._h_walls[prop_x][curr_y] = 0
 
     def maze_for_return(self):
-        """Create and return a 2D array of 1's and 0's
+        """Create and return a 2D array of Vertex objects
            based on the maze that was created.
         """
         ret_maze = []
-        for x in range(len(self._h_walls)):
+        # starting from the bottom row
+        for x in range(self._width):
             temp = []
-            for y in range(len(self._v_walls)):
-                temp.append(self._h_walls[x][y])
+            # moving up
+            for y in range(self._height):
+                new_vertex = Vertex(row=x, column=y, width=1)
+                if self.valid_position(x + 1, y):
+                    if not self.is_wall(x, y, x + 1, y):
+                        new_vertex.reset_walls('right')
+                if self.valid_position(x - 1, y):
+                    if not self.is_wall(x, y, x - 1, y):
+                        new_vertex.reset_walls('left')
+                if self.valid_position(x, y + 1):
+                    if not self.is_wall(x, y, x, y + 1):
+                        new_vertex.reset_walls('top')
+                if self.valid_position(x, y - 1):
+                    if not self.is_wall(x, y, x, y - 1):
+                        new_vertex.reset_walls('bottom')
+                temp.append(new_vertex)
             ret_maze.append(temp)
         return ret_maze
 
@@ -224,11 +240,21 @@ class Maze:
 
 
 def main():
-    my_maze = Maze(10, 10)
+    my_maze = Maze(5, 5)
     my_maze.create_solution_path()
     my_maze.print_maze(True)
-    print(my_maze.maze_for_return())
+    ret_maze = my_maze.maze_for_return()
+    for row in ret_maze:
+        for v in row:
+            print(v.row, v.column)
+            print(v.walls.items())
     print()
+    print(ret_maze)
+    print(f"Start = {my_maze.start}")
+    print(f"End = {my_maze.end}")
+    print()
+    print(my_maze.solution_path)
+
     
 
 if __name__ == "__main__":    
