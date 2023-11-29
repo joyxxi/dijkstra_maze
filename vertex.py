@@ -46,6 +46,9 @@ class Vertex:
         self.walls = {'top': True, 'bottom': True, 'left': True, 'right': True}
         self.visited = False # for maze generation, flag True after being visited, to avoid using Set
         self.neighbors = []
+    
+    def __str__(self) -> str:
+        return f"{self.row}, {self.column}"
         
     def is_wall(self, position):
         return self.walls[position]
@@ -74,7 +77,7 @@ class Vertex:
     def set_open(self):
         self.color = GREEN
     
-    def set_visted(self):
+    def set_visited(self):
         self.color = RED
 
     def set_wall(self):
@@ -86,12 +89,11 @@ class Vertex:
     def reset_vertex(self):
         self.color = WHITE
 
-    def reset_wall(self, position):
-        self.walls[position] = False
+    def reset_walls(self, walls):
+        self.walls = walls
 
     # call this after the maze has been generated to update neighbors list
     def add_neighbors(self, vert_list):
-        self.neighbors = []
         row = self.row
         column = self.column
         total = len(vert_list)
@@ -111,6 +113,11 @@ class Vertex:
 
     def get_neighbors(self):
         return [nbr for nbr in self.neighbors]
+    
+    def __lt__(self, other):
+        """Define the behavior for the '<' operator (less than)."""
+        if isinstance(other, Vertex):
+            return self == other
 
 
 def draw_graph(rows, width):
@@ -122,6 +129,12 @@ def draw_graph(rows, width):
                 graph[row].append(Vertex(row, column, sub_width))
         return graph
 
+def get_all_vertices(graph):
+    ls = []
+    for row in graph:
+        for v in row:
+            ls.append(v)
+    return ls
 
 # MOVED to main(), call this when maze has been generated to draw wall if there's any
 # def draw_wall(self, window):

@@ -1,30 +1,27 @@
-from dijkstra import *
-from graph import *
-from vertex import *
-from visualization import *
+import dijkstra
+import vertex
+import visualization
+import maze_generator
+import pygame
 
-WIDTH = 1000
+WIDTH = 500
 WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Pathfinding Odyssey")
 
 def main(win, width):
-    ROWS = 10
-
+    ROWS = 20
     # Construct the graph
-    graph = Graph(ROWS)
-    graph = graph.draw_graph(width) # TODO: wait to be revised
+    graph = vertex.draw_graph(ROWS, WIDTH)
 
     # Start and End vertex. Assigned after maze generation.
     start = None
     end = None
 
-    # If we are running the main loop
     run = True
-    # If we actually started the algorithm
-    started = False
+    # started = False
 
     while run:
-        draw_graph(win, graph)
+        visualization.draw_graph(win, graph)
 
         # Loop through all the events that happened and check what they are
         for event in pygame.event.get():
@@ -32,22 +29,39 @@ def main(win, width):
             if event.type == pygame.QUIT:
                 run = False
 
-
             # Once we started the algorithm, don't want user to press anything, unless the quit button    
-            if started:
-                continue
+            # if started:
+            #     continue
+
+            if pygame.mouse.get_pressed()[0]: # Left
+                # # Run maze
+                maze = maze_generator.Maze(ROWS, ROWS)
+                maze.create_solution_path()
+                graph = maze.maze_for_return(width)
+
+                    
+                start_x, start_y = maze.start
+                # start = graph[start_x][ROWS - 1 - start_y]
+                start = graph[start_x][start_y]
+                start.set_start()
+                end_x, end_y = maze.end
+                # end = graph[end_x][ROWS - 1 - end_y]
+                end = graph[end_x][end_y]
+                end.set_end()
+
+                # start = graph[0][0]
+                # start.set_start()
+                # end = graph[3][3]
+                # end.set_end()
+                # start.walls['bottom'] = False
+                # graph[1][0].walls['top'] = False
+                # start.walls['right'] = False
+                # graph[0][1].walls['left'] = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not started:
-                    # Run maze
-                    # TODO
-                    # Update neighbors
-                    for row in graph:
-                        for v in row:
-                            v.add_neighbors(graph) # TODO: Need to be revised
-
+                if event.key == pygame.K_SPACE and start and end:
                     # Run Dijkstra
-                    dijkstra(win, start, end, graph) #TODO: Parameters wait to be revised
+                    dijkstra.dijkstra(lambda: visualization.draw_graph(win, graph), start, end, graph)
     # Exit the pygame window
     pygame.quit()
 

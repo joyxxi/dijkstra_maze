@@ -45,11 +45,11 @@ class Maze:
 
     @property
     def start(self):
-        return self._start, 0
+        return self._start, self._height - 1
 
     @property
     def end(self):
-        return self._end, self._height - 1
+        return self._end, 0
 
     def _build_solution_path(self):
         self._solution_path = [(self._end, self._height - 1)]
@@ -132,32 +132,45 @@ class Maze:
         if curr_y < prop_y:
             self._h_walls[prop_x][curr_y] = 0
 
-    def maze_for_return(self):
+    def walls_matrix(self):
         """Create and return a 2D array of Vertex objects
            based on the maze that was created.
         """
         ret_maze = []
-        # starting from the bottom row
-        for x in range(self._width):
-            temp = []
-            # moving up
-            for y in range(self._height):
-                new_vertex = Vertex(row=x, column=y, width=1)
-                if self.valid_position(x + 1, y):
-                    if not self.is_wall(x, y, x + 1, y):
-                        new_vertex.reset_walls('right')
-                if self.valid_position(x - 1, y):
-                    if not self.is_wall(x, y, x - 1, y):
-                        new_vertex.reset_walls('left')
-                if self.valid_position(x, y + 1):
-                    if not self.is_wall(x, y, x, y + 1):
-                        new_vertex.reset_walls('top')
-                if self.valid_position(x, y - 1):
-                    if not self.is_wall(x, y, x, y - 1):
-                        new_vertex.reset_walls('bottom')
-                temp.append(new_vertex)
-            ret_maze.append(temp)
+        # starting from the top row
+        for col in range(self._height - 1, -1, -1):
+            # moving down
+            level = []
+            for row in range(0, self._width):
+                temp = {'top': True, 'bottom': True, 'left': True, 'right': True}
+                if self.valid_position(row, col):
+                    if not self.is_wall(row, col, row + 1, col):
+                        temp['right'] = False
+                if self.valid_position(row - 1, col):
+                    if not self.is_wall(row, col, row - 1, col):
+                        temp['left'] = False
+                if self.valid_position(row, col + 1):
+                    if not self.is_wall(row, col, row, col + 1):
+                        temp['top'] = False
+                if self.valid_position(row, col - 1):
+                    if not self.is_wall(row, col, row, col - 1):
+                        temp['bottom'] = False
+                level.append(temp)
+            ret_maze.append(level)
         return ret_maze
+
+    def maze_for_return(self, width):
+        walls_matrix = self.walls_matrix()
+        ret_matrix = []
+        subwidth = width // self._width
+        for row in range(len(walls_matrix)):
+            temp = []
+            for col in range(len(walls_matrix[0])):
+                new_vertex = Vertex(row, col, subwidth)
+                new_vertex.reset_walls(walls_matrix[row][col])
+                temp.append(new_vertex)
+            ret_matrix.append(temp)
+        return ret_matrix
 
     def create_solution_path(self, method=Method.RANDOM):
 
@@ -243,11 +256,12 @@ def main():
     my_maze = Maze(5, 5)
     my_maze.create_solution_path()
     my_maze.print_maze(True)
-    ret_maze = my_maze.maze_for_return()
-    for row in ret_maze:
-        for v in row:
-            print(v.row, v.column)
-            print(v.walls.items())
+    ret_maze = my_maze.walls_matrix()
+    product = my_maze.maze_for_return()
+    for i in range(5):
+        for j in range(5):
+            print(product[i][j].row, product[i][j].column, product[i][j].walls.items())
+
     print()
     print(ret_maze)
     print(f"Start = {my_maze.start}")
@@ -255,7 +269,6 @@ def main():
     print()
     print(my_maze.solution_path)
 
-    
 
 if __name__ == "__main__":    
     main()

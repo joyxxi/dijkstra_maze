@@ -7,8 +7,8 @@ def draw_vertex_wall(win, graph):
     for row in graph:
         for v in row:
             width = v.width
-            x = v.row * width
-            y = v.column * width
+            y = v.row * width
+            x = v.column * width
             thickness = 4
 
             # draw top wall
@@ -32,8 +32,8 @@ def draw_vertex_color(win, graph):
     for row in graph:
         for v in row:
             width = v.width
-            x = v.row * width
-            y = v.column * width
+            y = v.row * width
+            x = v.column * width
             pygame.draw.rect(win, v.color, (x, y, width, width))
     
     # pygame.display.update()
