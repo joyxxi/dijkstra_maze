@@ -29,6 +29,7 @@ GREEN = (0, 255, 0) # open
 YELLOW = (255, 255, 0) # path
 ORANGE = (255, 165, 0) # start
 BLUE = (0, 0, 255) # end
+BLACK = (0, 0, 0) # line
 
 
 class Vertex:
