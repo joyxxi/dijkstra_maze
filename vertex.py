@@ -1,39 +1,33 @@
-""" class Vertex
-        Attributes:
-            row: position of row
-            column: position of column
-            color: color/status of the vertex, default to white
-            width: width of the vertex, also is the weight of edges
-            walls: walls in direction top, bottom, left, right, True means wall, False means not wall
-            visited: for generating maze, to track if the vertex is visited
-            neighbors: list of neighbors of the vertex, only add to the list when there's no wall between
-
-        Methods:
-            is_open, is_closed, is_barrier, is_start, is_end, is_path: for dijkstra, return True if the vertex is of the status
-            
-            make_open, make_closed, make_barrier, make_start, make_end, make_path: for dijkstra, change the status
-            
-            reset_grid: just in case need to change vertex to the default status
-            
-            add_neighbor: for dijkstra and maze, add 4 adjacent vertices as neighbors if there are no wall between
-                Parameters: need to draw_graph() to get the vert_list to pass in as parameter
-            
-            draw_wall: for visualization, draw wall in the four direction if wall is marked True
-                Parameters: current window
-
-        Function:
-            draw_graph: create a 2D List to hold vertices
-                Parameters:
-                    rows: number of rows
-                    width: width of each row
+""" 
+Vertex class
+Attributes:
+    row: index of row
+    column: index of column
+    color: color/status of the vertex, default to white
+    width: width of the vertex; also is the weight of edges
+    walls: walls in direction top, bottom, left, right, True means wall, False means not wall
+    visited: for Dijkstra, to track if the vertex is visited
+    neighbors: list of neighbors of the vertex; only add to the list when there's no wall between
+Methods:
+    getters: for Dijkstra, return True if the vertex is of the status
+    setters: for Dijkstra, change the status of the vertex
+    reset_vertex: in case need to change the vertex to the default status
+    reset_wall: for the maze to break walls
+    add_neighbors: for Dijkstra and maze, add 4 adjacent vertices as neighbors if there are no wall between
+        Parameters: need to draw_graph() to get the vert_list to pass in as parameter
+    get_neighbors: return the neighbors list
+Function:
+    draw_graph: create a 2D List to hold vertices
+        Parameters:
+            rows: number of rows
+            width: width of each row
 """
-# Colors as status of vertices
+# Colors as the status of vertices
 WHITE = (255, 255, 255) # default
-BLACK = (0, 0, 0) # wall
 RED = (255, 0, 0) # visited
 GREEN = (0, 255, 0) # open
 YELLOW = (255, 255, 0) # path
-ORANGE = (255, 165 ,0) # start
+ORANGE = (255, 165, 0) # start
 BLUE = (0, 0, 255) # end
 
 
@@ -80,9 +74,6 @@ class Vertex:
     def set_visited(self):
         self.color = RED
 
-    def set_wall(self):
-        self.color = BLACK
-
     def set_path(self):
         self.color = YELLOW
 
@@ -92,7 +83,7 @@ class Vertex:
     def reset_walls(self, walls):
         self.walls = walls
 
-    # call this after the maze has been generated to update neighbors list
+    # call this after the maze has been generated to update the neighbors list
     def add_neighbors(self, vert_list):
         row = self.row
         column = self.column
