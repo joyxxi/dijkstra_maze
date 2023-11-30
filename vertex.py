@@ -24,12 +24,12 @@ Function:
 """
 # Colors as the status of vertices
 WHITE = (255, 255, 255) # default
-RED = (67, 172, 248) # Sky blue, visited
-GREEN = (255, 153, 0) # Orange, open
-YELLOW = (255, 255, 0) # path
-ORANGE = (255, 132, 124) # Pink, start
-BLUE = (183, 224, 168) # Light green, end
-BLACK = (0, 0, 0) # line
+RED = (67, 172, 248) # visited, sky blue
+GREEN = (248, 231, 75) # open, soft yellow
+YELLOW = (85, 255, 0) # path, bright green
+ORANGE = (255, 132, 124) # start, pink
+BLUE = (183, 224, 168) # end, light green
+BLACK = (0, 0, 0) # wall
 
 
 class Vertex:
