@@ -24,11 +24,11 @@ Function:
 """
 # Colors as the status of vertices
 WHITE = (255, 255, 255) # default
-RED = (255, 0, 0) # visited
-GREEN = (0, 255, 0) # open
+RED = (6, 182, 212) # Cyan, visited
+GREEN = (165, 243, 252) # Light cyan, open
 YELLOW = (255, 255, 0) # path
-ORANGE = (255, 165, 0) # start
-BLUE = (0, 0, 255) # end
+ORANGE = (252, 165, 165) # Pink, start
+BLUE = (22, 78, 99) # Dark cyan, end
 BLACK = (0, 0, 0) # line
 
 
